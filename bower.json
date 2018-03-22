@@ -27,6 +27,7 @@
     "gulp": "^3.9.1"
   },
   "devDependencies": {
-    "foundation": "^5.5.3"
+    "foundation": "^5.5.3",
+    "d3": "^3.5.17"
   }
 }

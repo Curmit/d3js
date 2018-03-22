@@ -27,16 +27,16 @@ function barGraph ()
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("data/suicide-squad.json", function (data)
+    d3.json("data/vacancies.json", function (data)
     {
         x.domain(data.map(function (d)
         {
-            return d.name;
+            return d.Study;
         }));
 
         y.domain([0, d3.max(data, function (d)
         {
-            return d.rank;
+            return d.noVacancies;
         })]);
 
         svg.append("g")
@@ -67,16 +67,16 @@ function barGraph ()
             .style("fill", "orange")
             .attr("x", function(d)
             {
-                return x(d.name);
+                return x(d.Study);
             })
             .attr("width", x.rangeBand())
             .attr("y", function (d)
             {
-                return y(d.rank);
+                return y(d.noVacancies);
             })
             .attr("height", function (d)
             {
-                return height - y(d.rank);
+                return height - y(d.noVacancies);
             })
             .on("mouseover", function ()
             {
@@ -91,7 +91,7 @@ function barGraph ()
                 var xPos    = d3.mouse(this)[0] - 55;
                 var yPos    = d3.mouse(this)[1] - 55;
                 tooltip.attr("transform", "translate(" + xPos + "," + yPos + ")");
-                tooltip.select("text").text("Name: " + d.name + " : Rank: " + d.rank);
+                tooltip.select("text").text("Study: " + d.Study + " : Number: " + d.noVacancies);
             });
 
         var tooltip     = svg.append("g")
