@@ -7,10 +7,12 @@
     <script src="bower_components/foundation/js/foundation.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
-    <script src="js/d3jsBarGraph.js"></script>
+    <!-- <script src="js/d3jsBarGraph.js"></script> -->
+    <script src="js/bargraph/bargraph.js"></script>
+    
 
     <style>
-        @import url("css/barchart.css");
+        @import url("/css/barchart.css");
     </style>
 </head>
 <body>
@@ -18,6 +20,7 @@
 <div class="graph" id="barGraph"></div>
 
 <script>
+    totalEducation();
     barGraph();
 </script>
 </body>
