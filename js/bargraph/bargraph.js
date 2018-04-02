@@ -1,3 +1,5 @@
+var studies = new Map();
+
 function barGraph() {
     // variables
     var margin = { top: 20, right: 20, bottom: 100, left: 60 },
@@ -7,6 +9,9 @@ function barGraph() {
         // this the range where in your x axis label stays and the width between them 
         x = d3.scale.ordinal().rangeRoundBands([0, width], 0.5),
         y = d3.scale.linear().range([height, 0]);
+
+
+
 
     //draw axis
 
@@ -22,9 +27,11 @@ function barGraph() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + " )");
 
 
+    // calcuate all vacancies
+    totalEducation();
 
     d3.json("data/suicide-squad.json", function (data) {
-        console.log(data);
+        //console.log(data);
 
         // map data to x axis
         x.domain(data.map(function (d) {
@@ -33,11 +40,9 @@ function barGraph() {
         }));
 
         //scale the y domain to the total value within the data
-        y.domain([0, d3.max(data, function (d) {
+        y.domain([0, d3.max(Array.from(studies.entries()), function (d) {
             //console.log("domain "+ d.noVacancies);
-
-            return d.rank;
-
+            return d[1];
         })]);
 
 
@@ -74,10 +79,33 @@ function barGraph() {
             })
             .attr("width", x.rangeBand())
             .attr("y", function (d) {
-                //Call function 
-                console.log("Vacancies for" + d.name + ": " + d.rank);
 
-                return y(d.rank);
+                for (var [key, value] of studies.entries()) {
+                    // console.log("Comparing JSON value " + d.name + " with key " + key);
+
+                    if (d.name == key) {
+                        // console.log("---> They are the same! Returning value " + studies.get(key));
+                        return y(studies.get(key));
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+
+
+
+
+
+
+                //console.log("Vacancies for" + d.name + ": " + d.rank);
+
+                //return y(d.rank);
 
                 // // possible implementation with ternary operator
                 // for(var i=0; i++; i < myArray.length){
@@ -85,15 +113,31 @@ function barGraph() {
                 //     return d.name === myArray[i].Study ? myArray[i].total : 10000; 
                 // }
 
-            })
-            .attr("height", function (d) {
-                return height - y(d.rank);
+            )
+        .attr("height", function (d) {
+            
+            for(var [key,value] of studies.entries()){
+                console.log("Returning key: " + key + " with value " + value);
+                if(d.name == key){
+                return height - y(studies.get(key));
 
-            });
+                }
+
+
+            }
 
 
 
-    })
+          
+
+
+
+
+        });
+
+
+
+})
 
 
 
@@ -111,10 +155,7 @@ function totalEducation() {
 
 
 
-    var studies = new Map();
 
-
-    console.log("helluw");
 
     d3.json("data/suicide-squad.json", function (data) {
 
@@ -127,44 +168,46 @@ function totalEducation() {
         var iterator1 = studies.keys();
 
 
-        
+
 
         for (var [key, value] of studies.entries()) {
-    
-            
+
+
             for (var i = 0; i < data.length; i++) {
-                //console.log(" i am here");
-    
-                if (key == data[i].name ) {
-                   if(studies.get(key)== null){
-                    studies.set(key,data[i].rank);
-                    console.log("key " + key+ "value "+ studies.get(key));
-                   } 
-                   else{
-                    studies.set(key, studies.get(key)+ data[i].rank);
-                    console.log("ik ben in else");
 
-                   }
-                    
-                } 
-                
-               
-    
+
+                if (key == data[i].name) {
+                    if (studies.get(key) == null) {
+                        studies.set(key, data[i].rank);
+                        // console.log("key " + key + "value " + studies.get(key));
+                    }
+                    else {
+                        studies.set(key, studies.get(key) + data[i].rank);
+                        //console.log("ik ben in else");
+
+                    }
+
+                }
+
+
+
             }
-          
 
-           
-     
-        
+
+
+
         }
         for (var [key, value] of studies.entries()) {
 
-        console.log(key + ' = ' + value);
+            console.log(key + ' = ' + value);
+
 
         }
 
+        console.log("calculated total");
 
     })
+    return studies;
 }
 
 
