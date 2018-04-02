@@ -2,7 +2,7 @@ var studies = new Map();
 
 function barGraph() {
     // variables
-    var margin = { top: 20, right: 20, bottom: 100, left: 60 },
+    var margin = { top: 20, right: 20, bottom: 200, left: 60 },
         //   
         width = 800 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom,
@@ -17,7 +17,7 @@ function barGraph() {
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom");
 
-    var yAxis = d3.svg.axis().scale(y).orient("left").ticks(60);
+    var yAxis = d3.svg.axis().scale(y).orient("left").ticks(20);
 
     // SVG element with HTML element!
     var svg = d3.select("#barGraph").append("svg")
@@ -30,13 +30,13 @@ function barGraph() {
     // calcuate all vacancies
     totalEducation();
 
-    d3.json("data/suicide-squad.json", function (data) {
+    d3.json("data/vacancies.json", function (data) {
         //console.log(data);
 
         // map data to x axis
         x.domain(data.map(function (d) {
 
-            return d.name;// return prefered variable from data
+            return d.Study;// return prefered variable from data
         }));
 
         //scale the y domain to the total value within the data
@@ -65,7 +65,7 @@ function barGraph() {
             .attr("y", 5)
             .attr("dy", "0.8em")
             .attr("text-anchor", "end")
-            .text("Member Rank");
+            .text("Number of vacancies");
 
         // put bars in, data bind on every element a bar chart
         svg.selectAll("bar")
@@ -75,15 +75,15 @@ function barGraph() {
             .style("fill", "orange") // give the bar a color!
             .attr("x", function (d) {
 
-                return x(d.name); // return for x the name 
+                return x(d.Study); // return for x the Study 
             })
             .attr("width", x.rangeBand())
             .attr("y", function (d) {
 
                 for (var [key, value] of studies.entries()) {
-                    // console.log("Comparing JSON value " + d.name + " with key " + key);
+                    // console.log("Comparing JSON value " + d.Study + " with key " + key);
 
-                    if (d.name == key) {
+                    if (d.Study == key) {
                         // console.log("---> They are the same! Returning value " + studies.get(key));
                         return y(studies.get(key));
 
@@ -103,14 +103,14 @@ function barGraph() {
 
 
 
-                //console.log("Vacancies for" + d.name + ": " + d.rank);
+                //console.log("Vacancies for" + d.Study + ": " + d.noVacancies);
 
-                //return y(d.rank);
+                //return y(d.noVacancies);
 
                 // // possible implementation with ternary operator
                 // for(var i=0; i++; i < myArray.length){
-                //     // if d.name is equal to name in array return value 
-                //     return d.name === myArray[i].Study ? myArray[i].total : 10000; 
+                //     // if d.Study is equal to Study in array return value 
+                //     return d.Study === myArray[i].Study ? myArray[i].total : 10000; 
                 // }
 
             )
@@ -118,7 +118,7 @@ function barGraph() {
             
             for(var [key,value] of studies.entries()){
                 console.log("Returning key: " + key + " with value " + value);
-                if(d.name == key){
+                if(d.Study == key){
                 return height - y(studies.get(key));
 
                 }
@@ -157,11 +157,11 @@ function totalEducation() {
 
 
 
-    d3.json("data/suicide-squad.json", function (data) {
+    d3.json("data/vacancies.json", function (data) {
 
         //  set all studies as keys
         for (let i = 0; i < data.length; i++) {
-            studies.set(data[i].name);
+            studies.set(data[i].Study);
         }
         // if they have the same studies add up all vacancies
         // compare for each JSON object with the keynames of hash maps
@@ -176,13 +176,13 @@ function totalEducation() {
             for (var i = 0; i < data.length; i++) {
 
 
-                if (key == data[i].name) {
+                if (key == data[i].Study) {
                     if (studies.get(key) == null) {
-                        studies.set(key, data[i].rank);
+                        studies.set(key, data[i].noVacancies);
                         // console.log("key " + key + "value " + studies.get(key));
                     }
                     else {
-                        studies.set(key, studies.get(key) + data[i].rank);
+                        studies.set(key, studies.get(key) + data[i].noVacancies);
                         //console.log("ik ben in else");
 
                     }
