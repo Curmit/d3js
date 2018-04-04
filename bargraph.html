@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Accio Code D3js Tutorial - Bar Graph</title>
+
+    <!-- <script src="bower_components/d3/d3.min.js"></script> -->
+    <!-- <script src="js/d3jsBarGraph.js"></script> -->
+    
+    <link rel="stylesheet" type="text/css" href="css/barchart.css">
+</head>
+
+<body>
+
+    <div class="graph" id="barGraph"></div>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/foundation/js/foundation.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
-    <script src="bower_components/d3/d3.min.js"></script>
-    <!-- <script src="js/d3jsBarGraph.js"></script> -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="js/bargraph/bargraph.js"></script>
-    
-
-    <style>
-        @import url("/css/barchart.css");
-    </style>
-</head>
-<body>
-
-<div class="graph" id="barGraph"></div>
-
-<script>
-    barGraph();
-</script>
+    <script> barGraph();</script>
 </body>
+
 </html>
